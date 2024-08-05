@@ -28,7 +28,8 @@ sidebar = dbc.Nav(
     vertical=True,
     pills=True,
     className="bg-light",
-    style={'width': '100%'}  # 确保 sidebar 本身宽度合适
+    # Make sure the sidebar itself is the right width
+    style={'width': '100%'}
 )
 
 app.layout = dbc.Container([

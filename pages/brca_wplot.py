@@ -1,3 +1,4 @@
+# brca_wplot.py
 from dash import dcc, html, dash_table, Output, Input, callback
 import dash
 import dash_bootstrap_components as dbc
@@ -17,7 +18,7 @@ if os.path.exists(data_path):
 else:
     df = pd.DataFrame()
 
-# 创建datatable tooltips工具提示数据
+# Create datatable tooltips tooltip data
 tooltips = []
 for i in range(len(df)):
     tooltips.append({
@@ -68,7 +69,7 @@ layout = dbc.Container([
                 page_current=0,
                 page_size=10,
                 tooltip_data=tooltips,
-                tooltip_duration=None,  # 保持工具提示一直可见
+                tooltip_duration=None,  # Keep tooltips visible at all times
             ),
         ]),
         html.Div(id='datatable-interactivity-container')
