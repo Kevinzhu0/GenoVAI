@@ -12,12 +12,15 @@ from langchain_core.messages import HumanMessage
 import plotly.graph_objects as go
 from langchain_openai import ChatOpenAI
 from dotenv import find_dotenv, load_dotenv
+# import kaleido
+
 
 dash.register_page(__name__, path='/', name='Home')  # '/' is home page
 
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
-chat_model = ChatOpenAI(model="gpt-4o", max_tokens=256)
+openai_api_key = os.getenv('OPENAI_API_KEY')
+chat_model = ChatOpenAI(api_key=openai_api_key, model="gpt-4o", max_tokens=256)
 
 visualization_options = [
     {'label': 'Age Distribution at Initial Diagnosis', 'value': 'age_dist'},
@@ -194,8 +197,12 @@ def graph_insights(n_clicks, figures):
     index = eval(button_id)['index']
     if not n_clicks[index]:
         return [no_update] * len(figures)
-    fig_object = go.Figure(figures[index])
+    image_directory = "images"
     image_path = f"images/fig{index}.png"
+    if not os.path.exists(image_directory):
+        os.makedirs
+    fig_object = go.Figure(figures[index])
+    fig_object.write_image(image_path)
     fig_object.write_image(image_path)
     time.sleep(2)
 

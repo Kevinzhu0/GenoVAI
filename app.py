@@ -1,18 +1,18 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html
-# import dash_auth
+import dash_auth
 
 # BOOTSTRAP
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP, 'assets/custom.css'])
+app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "GenoVAI"
-# auth = dash_auth.BasicAuth(
-#     app,
-#     {
-#         'test_app': 'smart_test',
-#         'user_login': 'login_pass'
-#     }
-# )
+auth = dash_auth.BasicAuth(
+    app,
+    {
+        'test_app': 'smart_test',
+        'user_login': 'login_pass'
+    }
+)
 
 sidebar = dbc.Nav(
     [
@@ -56,5 +56,3 @@ app.layout = dbc.Container([
 
 if __name__ == '__main__':
     app.run_server(debug=False)
-
-

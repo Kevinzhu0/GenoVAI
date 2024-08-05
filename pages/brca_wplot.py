@@ -44,7 +44,7 @@ layout = dbc.Container([
         children=[
             html.P("""
             You can use the filters in the BRCA_Mutational&Clinical_Merged_Dataset datatable below to select the Hugo_Symbol: gene name, One_Consequence: the ‘type’ of mutation, age_at_initial_pathologic_diagnosis, and other fields you want to display. The visualizations below will update accordingly.
-            If you would like to learn more insights related to the visualizations, you can click the "Insights" button below each graph. 
+            If you would like to learn more insights related to the visualizations, you can click the "Insights" button below each graph.
         """)
         ],
         className='mt-3'

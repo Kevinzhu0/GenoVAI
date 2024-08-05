@@ -19,7 +19,7 @@ dash.register_page(__name__, name='AI_Agent')
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-model = ChatGroq(api_key=GROQ_API_KEY, model="llama3-70b-8192")
+model = ChatGroq(api_key=GROQ_API_KEY, model="llama3-70b-8192")# llama3-8b-8192; llama3-70b-8192
 
 layout = dbc.Container([
     html.H2("Plotly AI for Creating Graphs & Insights"),
@@ -63,15 +63,11 @@ layout = dbc.Container([
     ),
 ], fluid=True)
 
-
 @callback(
     Output('output-grid', 'children'),
     Input('upload-data', 'contents'),
     State('upload-data', 'filename')
 )
-
-
-
 def update_output(list_of_contents, list_of_names):
     if list_of_contents is not None:
         children = [parse_contents(c, n) for c, n in zip(list_of_contents, list_of_names)]
@@ -112,12 +108,18 @@ def parse_contents(contents, filename):
     State("store-it", "data"),
     prevent_initial_call=True
 )
-def create_graph(_, user_input, file_data, file_name, chat_history):
+def create_graph(n_clicks, user_input, file_data, file_name, chat_history):
+    if file_data is None:
+        return no_update, "No data provided", no_update
+
     df = pd.DataFrame(file_data)
     df_5_rows = df.head()
     csv_string = df_5_rows.to_string(index=False)
-    if len(chat_history) > 0:
+    if chat_history is not None and len(chat_history) > 0:
         chat_history = loads(chat_history)
+    else:
+        chat_history = []
+
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system",
@@ -139,21 +141,19 @@ def create_graph(_, user_input, file_data, file_name, chat_history):
     chat_history.append(HumanMessage(content=user_input))
     chat_history.append(AIMessage(content=result_output))
     history = dumps(chat_history)
-    print(history)  # print chat_history
+
     code_block_match = re.search(r'```(?:[Pp]ython)?(.*?)```', result_output, re.DOTALL)
     if code_block_match:
         code_block = code_block_match.group(1).strip()
+        # Ensure any file reading is replaced with in-memory DataFrame usage
+        code_block = re.sub(r'pd\.read_csv\(.*?\)', 'df', code_block)
         cleaned_code = re.sub(r'(?m)^\s*fig\.show\(\)\s*$', '', code_block)
-        fig = get_fig_from_code(cleaned_code)
+        fig = get_fig_from_code(cleaned_code, df)
         return dcc.Graph(figure=fig), result_output, history
     else:
         return no_update, result_output, history
 
-
-
-
-
-def get_fig_from_code(code):
-    local_variables = {}
+def get_fig_from_code(code, df):
+    local_variables = {'df': df}
     exec(code, {}, local_variables)
     return local_variables['fig']
