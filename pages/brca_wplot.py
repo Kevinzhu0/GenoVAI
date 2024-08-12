@@ -1,4 +1,8 @@
 # brca_wplot.py
+###
+# The ‘BRCA_wplot’ page is the internal part of the GenoVAI dash application,
+# designed to facilitate the analysis of BRCA gene mutations by using interactive data tables and dynamic visualizations.
+###
 from dash import dcc, html, dash_table, Output, Input, callback
 import dash
 import dash_bootstrap_components as dbc

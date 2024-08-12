@@ -1,4 +1,8 @@
 # ai_agent.py
+###
+# Users can upload a dataset and customize the display
+# using the command text box on the Artificial Intelligence Agent page.
+###
 from dash import callback
 import dash
 from dash import dcc, html, no_update

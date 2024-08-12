@@ -1,3 +1,10 @@
+#data_analysis.py
+###
+# Generating detailed insights for specific visualization images:
+# GenoVAI Dash application integrates various components to provide a functionality to generate insights from visualizations.
+# The Home page makes a combination of Plotly for visualization and LangChain’s AI model for generating insights to help users
+# to better understand genomic data without requiring a technical background.
+###
 from dash import callback
 import dash
 from dash import dcc, html, no_update

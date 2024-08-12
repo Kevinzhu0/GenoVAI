@@ -1,4 +1,10 @@
 # data_exploration.py
+###
+# Upload Dataset & Display with dag.AgGrid:
+# The file upload functionality is implemented using the ‘dcc.Upload’ component from Dash.
+# After processing, the uploaded data is shown for further investigation.
+# When a file is uploaded, its contents are encoded and processed to be displayed in a table.
+###
 from dash import dcc, html, callback, Input, Output, State, no_update
 import dash
 import dash_bootstrap_components as dbc
